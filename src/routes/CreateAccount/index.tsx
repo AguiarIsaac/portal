@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useContext } from 'react'
+import { AccessContext } from "../../contexts/AccessContext";
 
 // aqui o zod atua criando uma tipagem dos dados do form, criando criterios e fazendo tranformações de dados
 const registerFormSchema = z.object({
@@ -23,9 +25,10 @@ type registerFormData = z.infer<typeof registerFormSchema>
 export function CreateAccount() {
 
   const {register, handleSubmit} = useForm<registerFormData>({resolver: zodResolver(registerFormSchema)})
+  const users = useContext(AccessContext)
 
   function handleNewUser(data: registerFormData) {
-    console.log(data)
+    users.addNewUser(data)
   }
 
   return (
@@ -47,7 +50,7 @@ export function CreateAccount() {
 
         <label>
           Confirme a senha
-          <input {...register('confirmPassword')} type="password" name="confirm-password" id="confirm-password" />
+          <input {...register('confirmPassword')} type="password" name="confirmPassword" id="confirmPassword" />
         </label>
         <button type="submit">Criar</button>
       </form>
