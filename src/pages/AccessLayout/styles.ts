@@ -1,22 +1,20 @@
 import styled from "styled-components";
 
 export const MainComponent = styled.main`
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 4rem;
+  padding: 1rem;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
 `
 
-export const SectionLogo = styled.div`
-  width: 664px;
-  height: 100vh;
+export const SectionLogo = styled.section`
+
   display: flex;
   align-items: center;
   justify-content: center;
 
   img {
+    margin: 2rem 0;
     width: 18rem;
     height: auto;
 
@@ -25,11 +23,9 @@ export const SectionLogo = styled.div`
     @keyframes image {
       0% {
         opacity: 0;
-        margin-left: 8rem;
       }
       100% {
         opacity: 1;
-        margin-left: 0;
       }
     }
   }

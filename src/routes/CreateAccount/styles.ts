@@ -1,9 +1,7 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
-export const SectionForm = styled.div`
-  
-
-  h2, label {
+export const SectionForm = styled.section`
+    h2, label {
     color: #e1e1e1;
   }
 
@@ -16,7 +14,7 @@ export const SectionForm = styled.div`
   }
 
   form {
-    margin-top: 4rem;
+    margin-top: 1rem;
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -28,6 +26,7 @@ export const SectionForm = styled.div`
     }
 
     input {
+      max-width: 24rem;
       border: none;
       border-radius: 4px;
       padding: 0.5rem;
@@ -35,7 +34,6 @@ export const SectionForm = styled.div`
       outline: none;
       border: 2px solid #414141;
       color: #e1e1e1;
-      width: 24rem;
 
       :focus-visible {
         border-color: #0e73cc;
@@ -45,12 +43,17 @@ export const SectionForm = styled.div`
 
     button {
       border-radius: 4px;
+      max-width: 24rem;
       border: none;
       padding: 0.75rem;
       cursor: pointer;
 
       :active {
         background: #414141;
+      }
+
+      :focus {
+        outline: 2px solid #0e73cc;
       }
     }
   }

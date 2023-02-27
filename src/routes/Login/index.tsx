@@ -25,8 +25,8 @@ export function Login() {
   }
 
   return (
-    <section>
-      <SectionForm>
+    <SectionForm>
+      <div className="box">
         <h2>Entrar</h2>
         <p>Novo no portal? <Link to='createaccount'>Inscreva-se para ter uma conta</Link>.</p>
 
@@ -45,7 +45,7 @@ export function Login() {
 
         <button type="submit">Entrar</button>
         </form>
-      </SectionForm>
-    </section>
+      </div>
+    </SectionForm>
   )
 }

@@ -32,8 +32,8 @@ export function CreateAccount() {
   }
 
   return (
-    <section>
-    <SectionForm>
+  <SectionForm>
+    <div>
       <h2>Criar Conta</h2>
       <p>Já possui uma conta? <Link to='/'>Entar</Link>.</p>
 
@@ -54,8 +54,7 @@ export function CreateAccount() {
         </label>
         <button type="submit">Criar</button>
       </form>
-
-    </SectionForm>
-  </section>
+    </div>
+  </SectionForm>
   )
 }

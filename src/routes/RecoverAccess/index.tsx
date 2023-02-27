@@ -23,8 +23,8 @@ export function RecoverAccess() {
 
 
   return (
-    <section>
-      <SectionForm>
+    <SectionForm>
+      <div className="box">
         <h2>Resetar Sua senha</h2>
         <p><Link to='/'>Voltar para tela de login.</Link></p> 
         <form onSubmit={handleSubmit(handleRecover)}>
@@ -34,7 +34,7 @@ export function RecoverAccess() {
           </label>
           <button type="submit">Resetar Senha</button>
         </form>
+      </div>
     </SectionForm>
-  </section>
   )
 }

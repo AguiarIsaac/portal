@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
-export const SectionForm = styled.div`
-  
-
+export const SectionForm = styled.section`
   h2, label {
     color: #e1e1e1;
   }
@@ -35,7 +33,7 @@ export const SectionForm = styled.div`
       outline: none;
       border: 2px solid #414141;
       color: #e1e1e1;
-      width: 24rem;
+      max-width: 24rem;
 
       :focus-visible {
         border-color: #0e73cc;
@@ -44,6 +42,7 @@ export const SectionForm = styled.div`
     }
 
     button {
+      max-width: 24rem;
       border-radius: 4px;
       border: none;
       padding: 0.75rem;
@@ -51,6 +50,10 @@ export const SectionForm = styled.div`
 
       :active {
         background: #414141;
+      }
+
+      :focus {
+        outline: 2px solid #0e73cc;
       }
     }
   }
