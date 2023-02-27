@@ -5,6 +5,16 @@ export const MainComponent = styled.main`
   width: 90%;
   max-width: 1200px;
   margin: 0 auto;
+
+  @media (min-width: 1200px){
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    gap: 4rem;
+    height: 100vh;
+  }
 `
 
 export const SectionLogo = styled.section`
@@ -14,7 +24,7 @@ export const SectionLogo = styled.section`
   justify-content: center;
 
   img {
-    margin: 2rem 0;
+    margin: 2rem 0 4rem 0;
     width: 18rem;
     height: auto;
 
