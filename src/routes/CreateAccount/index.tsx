@@ -25,15 +25,15 @@ type registerFormData = z.infer<typeof registerFormSchema>
 export function CreateAccount() {
 
   const {register, handleSubmit} = useForm<registerFormData>({resolver: zodResolver(registerFormSchema)})
-  const users = useContext(AccessContext)
+  const user = useContext(AccessContext)
 
   function handleNewUser(data: registerFormData) {
-    users.addNewUser(data)
+    user.addNewUser(data)
   }
 
   return (
   <SectionForm>
-    <div>
+    <div className="box">
       <h2>Criar Conta</h2>
       <p>Já possui uma conta? <Link to='/'>Entar</Link>.</p>
 

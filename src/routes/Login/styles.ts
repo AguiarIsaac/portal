@@ -3,6 +3,10 @@ import styled from "styled-components";
 export const SectionForm = styled.section`
   display: flex;
   justify-content: center;
+
+  div.box {
+      width: 100%;
+    }
   
   h2, label {
     color: #e1e1e1;

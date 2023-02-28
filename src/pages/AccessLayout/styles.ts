@@ -6,14 +6,15 @@ export const MainComponent = styled.main`
   max-width: 1200px;
   margin: 0 auto;
 
-  @media (min-width: 1200px){
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    gap: 4rem;
-    height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+
+  section {
+    width: 100%;
+    max-width: 24rem;
   }
 `
 

@@ -11,41 +11,29 @@ interface userProps {
 }
 
 interface AccessProps {
-  users: userProps[],
+  user: userProps[],
   addNewUser: (newSate: userProps) => void
 }
 
 export const AccessContext = createContext({} as AccessProps)
 
 export function AccessContextProvider({children}: ContextProps) {
-  const [users, setUsers] = useState<userProps[]>([])
+  const [user, setUser] = useState<userProps[]>([])
 
 
   function addNewUser(data: userProps) {
-    if(!users) {
-      setUsers([data])
+    if(!user) {
+      setUser([data])
     } else {
-      const duplicate = users.find(user => user.email == data.email)
-
-      if(duplicate) {
-        window.alert('Email já cadastrado! vá para tela de login ou de recuperação de senha')
-      } else {
-        if(data.password != data.confirmPassword) {
-          window.alert('Senhas não conferem')
-        } else {
-          setUsers([
-            ...users,
-            {email: data.email, password: data.password}
-          ])
-
-          console.log(users)
-        }
-      }
+        setUser([
+        ...user,
+        {email: data.email, password: data.password}
+      ])
     }
   }
 
   return (
-    <AccessContext.Provider value={{users, addNewUser}}>
+    <AccessContext.Provider value={{user, addNewUser}}>
       {children}
     </AccessContext.Provider>
   )
