@@ -37,6 +37,7 @@ export function CreateAccount() {
     }} = useForm<registerFormData>({resolver: zodResolver(registerFormSchema)})
   
   const [passwordValidate, setPasswordValidade] = useState('')
+  const [emailValidate, setEmailValidate] = useState('')
   const password = watch('password')
   const confirmPassword = watch('confirmPassword')
   const user = useContext(AccessContext)
@@ -51,13 +52,24 @@ export function CreateAccount() {
   }, [password, confirmPassword])
 
   function handleNewUser(data: registerFormData) {
+    // consultar se email já não foi cadastrado no banco
+    const emailDuplicate = user.user.email
+    
+    if(data.email == emailDuplicate) {
+      setEmailValidate('Email já cadastrado, vá para tela de login ou tente outro email')
+    } else {
+      setEmailValidate('')
+    }
+
     if(data.password === data.confirmPassword) {
-      const dataFormated = {
+      const newUser = {
         email: data.email,
         password: data.password
       }
 
-      user.addNewUser(dataFormated)
+      // fazer chamada no banco para criptgrafar senha, salvar dados e gerar um token de acesso
+  
+      user.addNewUser(newUser) 
     }
   }
 
@@ -71,6 +83,9 @@ export function CreateAccount() {
         <label>
           Email
           <input {...register('email')} required type="email" name="email" id="email" />
+          <ErrorForm>
+            <small>{emailValidate}</small>
+          </ErrorForm>
         </label>
 
         <label>

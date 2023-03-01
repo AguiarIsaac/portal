@@ -11,25 +11,18 @@ interface userProps {
 }
 
 interface AccessProps {
-  user: userProps[],
+  user: userProps,
   addNewUser: (newSate: userProps) => void
 }
 
 export const AccessContext = createContext({} as AccessProps)
 
 export function AccessContextProvider({children}: ContextProps) {
-  const [user, setUser] = useState<userProps[]>([])
+  const [user, setUser] = useState({} as userProps)
 
 
   function addNewUser(data: userProps) {
-    if(!user) {
-      setUser([data])
-    } else {
-        setUser([
-        ...user,
-        {email: data.email, password: data.password}
-      ])
-    }
+    setUser(data)
   }
 
   return (
