@@ -63,7 +63,6 @@ export function CreateAccount() {
       setEmailValidate('Email já cadastrado, vá para tela de login ou tente outro email')
     } else {
       setEmailValidate('')
-      tokenContext.addEmail(data.email)
     }
 
     if(data.password === data.confirmPassword) {
@@ -72,12 +71,9 @@ export function CreateAccount() {
         password: data.password
       }
 
+      tokenContext.addUser(newUser)
+
       // fazer chamada no banco para criptgrafar senha, salvar dados e gerar um token de acesso
-
-      // dando tudo certo terei um token gerado para ser salvo no contexto e no localstorage
-
-      const token = Math.floor(Date.now() * Math.random()).toString(36)
-      tokenContext.addToken({token})
     }
   }
 

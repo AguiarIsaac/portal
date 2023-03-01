@@ -4,11 +4,11 @@ interface ContextProps {
   children: ReactNode
 }
 
-// interface userProps {
-//   email: string,
-//   password: string,
-//   confirmPassword?: string
-// }
+interface userProps {
+  email: string,
+  password: string,
+  confirmPassword?: string
+}
 
 interface tokenProps {
   token: string
@@ -16,9 +16,9 @@ interface tokenProps {
 
 interface AccessProps {
   token: tokenProps,
-  // vou deixar email aqui por enquanto só pra testar as validações das telas de login e recuperação
-  email: string,
-  addEmail: (newSrate: string) => void,
+  // vou precisar deixar email e senha salvos só pra testar as outras telas
+  user: userProps,
+  addUser: (newSrate: userProps) => void,
   addToken: (newSate: tokenProps) => void
 }
 
@@ -26,7 +26,7 @@ export const AccessContext = createContext({} as AccessProps)
 
 export function AccessContextProvider({children}: ContextProps) {
   const [token, setToken] = useState({} as tokenProps)
-  const [email, setEmail] = useState('')
+  const [user, setUser] = useState({} as userProps)
 
 
   function addToken(data: tokenProps) {
@@ -36,12 +36,12 @@ export function AccessContextProvider({children}: ContextProps) {
     localStorage.setItem('@portal: Token-0-1', stateJSON)
   }
 
-  function addEmail(data: string) {
-    setEmail(data)
+  function addUser(data: userProps) {
+    setUser(data)
   }
 
   return (
-    <AccessContext.Provider value={{token, addToken, email, addEmail}}>
+    <AccessContext.Provider value={{token, addToken, user, addUser}}>
       {children}
     </AccessContext.Provider>
   )

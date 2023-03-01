@@ -65,3 +65,10 @@ export const SectionForm = styled.section`
     }
   }
 `
+export const FormError = styled.span`
+
+  display: block;
+  margin: 2rem 0 1rem 0;
+  border-left: 2px solid #FF455C;
+  padding-left: 0.25rem;
+`

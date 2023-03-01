@@ -10,6 +10,7 @@ export const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Roboto', sans-serif;
     background: #111111;
+    color: #e1e1e1;
 
     a {
       :focus {

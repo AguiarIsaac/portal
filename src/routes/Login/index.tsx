@@ -1,8 +1,10 @@
-import { SectionForm } from "./styles";
+import { FormError, SectionForm } from "./styles";
 import { Link } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useContext, useState } from 'react'
+import { AccessContext } from "../../contexts/AccessContext";
 
 const loginFormSchema = z.object({
   email: z
@@ -18,10 +20,29 @@ type loginFormData = z.infer<typeof loginFormSchema>
 
 export function Login() {
 
-  const {register, handleSubmit} = useForm<loginFormData>({resolver: zodResolver(loginFormSchema)})
+  const {register, handleSubmit, reset} = useForm<loginFormData>({resolver: zodResolver(loginFormSchema)})
+  const context = useContext(AccessContext)
+  const [emailError, setEmailError] = useState('')
 
   function handleLogin(data: loginFormData) {
-    console.log(data)
+    const emailValidate = context.user.email
+    // NAS FUTURAS REFATORAÇÕES, TROCAR ESSAS CONDICIONAIS POR OPERAÇÕES TERNÁRIAS
+    if(data.email !== emailValidate) {
+      setEmailError('usuário ou senha inválidos! tente novamente')
+      reset()
+    } else {
+      const passwordValidate = context.user.password
+      if(data.password !== passwordValidate) {
+        setEmailError('usuário ou senha inválidos! tente novamente')
+        reset()
+      } else {
+        
+        // dando tudo certo terei um token gerado para ser salvo no contexto e no localstorage
+        const token = Math.floor(Date.now() * Math.random()).toString(36)
+        context.addToken({token})
+        console.log('login realizado e token gerado!')
+      }
+    }
   }
 
   return (
@@ -30,15 +51,19 @@ export function Login() {
         <h2>Entrar</h2>
         <p>Novo no portal? <Link to='createaccount'>Inscreva-se para ter uma conta</Link>.</p>
 
+        {emailError && (
+          <FormError>{emailError}</FormError>
+        )}
+
         <form onSubmit={handleSubmit(handleLogin)}>
         <label>
           Email
-          <input {...register('email')} type="email" name="email" id="email" />
+          <input {...register('email')} required type="email" name="email" id="email" />
         </label>
 
         <label>
           Senha
-          <input {...register('password')} type="password" name="password" id="password" />
+          <input {...register('password')} required type="password" name="password" id="password" />
         </label>
 
         <Link to='recoveraccess'>Esqueceu sua senha?</Link>
