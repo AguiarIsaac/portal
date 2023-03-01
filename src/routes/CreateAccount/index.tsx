@@ -1,9 +1,9 @@
-import { SectionForm } from "./styles";
+import { ErrorForm, SectionForm } from "./styles";
 import { Link } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { AccessContext } from "../../contexts/AccessContext";
 
 // aqui o zod atua criando uma tipagem dos dados do form, criando criterios e fazendo tranformações de dados
@@ -14,21 +14,51 @@ const registerFormSchema = z.object({
     .transform((email) => email.toLowerCase()),
   password: z
     .string()
-    .min(6, {message: 'Senha deve conter no mínimo 6 caracteres'}),
-  confirmPassword: z
-  .string()
-  .min(6, {message: 'Senha deve conter no mínimo 6 caracteres'})
+    .min(8, { message: 'A senha deve conter no mínimo 8 caracteres'})
+    .regex(/[a-z]/, {message: 'A senha deve conter pelo menos uma letra minúscula'})
+    .regex(/[A-Z]/, {message: 'A senha deve conter pelo menos uma letra maiúscula'})
+    .regex(/[0-9]/, {message: 'A senha deve conter pelo menos um número'})
+    .regex(/[!@#$%&*]/, {message: 'A senha deve conter pelo menos um caractere especial'}),
+    // .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%*?&]{8,}$/,
+    // {message: 'A senha deve conter no mínimo: 8 caracteres; 1 letra maiúscula; 1 número e 1 caracter especial.'}),
+    confirmPassword: z
+    .string()
 })
 
 type registerFormData = z.infer<typeof registerFormSchema>
 
 export function CreateAccount() {
 
-  const {register, handleSubmit} = useForm<registerFormData>({resolver: zodResolver(registerFormSchema)})
+  const {
+    register, 
+    handleSubmit,
+    watch,
+    formState: {errors, isSubmitting
+    }} = useForm<registerFormData>({resolver: zodResolver(registerFormSchema)})
+  
+  const [passwordValidate, setPasswordValidade] = useState('')
+  const password = watch('password')
+  const confirmPassword = watch('confirmPassword')
   const user = useContext(AccessContext)
 
+  useEffect(() => {
+    if(password !== confirmPassword && confirmPassword !== '') {
+      setPasswordValidade('As senhas devem ser iguais!')
+    } else {
+      setPasswordValidade('')
+    }
+
+  }, [password, confirmPassword])
+
   function handleNewUser(data: registerFormData) {
-    user.addNewUser(data)
+    if(data.password === data.confirmPassword) {
+      const dataFormated = {
+        email: data.email,
+        password: data.password
+      }
+
+      user.addNewUser(dataFormated)
+    }
   }
 
   return (
@@ -40,19 +70,30 @@ export function CreateAccount() {
       <form onSubmit={handleSubmit(handleNewUser)}>
         <label>
           Email
-          <input {...register('email')} type="email" name="email" id="email" />
+          <input {...register('email')} required type="email" name="email" id="email" />
         </label>
 
         <label>
           Senha
-          <input {...register('password')} type="password" name="password" id="password" />
+          <input {...register('password')} required type="password" name="password" id="password" />
+          {errors.password && (
+            <ErrorForm>
+              <small>{errors.password.message}</small>
+              <small>Uma senha forte deve conter no mínimo: 8 caracteres; 1 letra maiúscula; 1 número e 1 caracter especial.</small>
+            </ErrorForm>
+          )}
         </label>
 
         <label>
           Confirme a senha
-          <input {...register('confirmPassword')} type="password" name="confirmPassword" id="confirmPassword" />
+          <input {...register('confirmPassword')} required type="password" name="confirmPassword" id="confirmPassword" />
+          {passwordValidate && (
+            <ErrorForm>
+              <small>{passwordValidate}</small>
+            </ErrorForm>
+          )}
         </label>
-        <button type="submit">Criar</button>
+        <button type="submit" disabled={isSubmitting}>Criar</button>
       </form>
     </div>
   </SectionForm>

@@ -10,5 +10,17 @@ export const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Roboto', sans-serif;
     background: #111111;
+
+    a {
+      :focus {
+        outline: 2px solid #0e73cc;
+      }
+    }
+
+    button {
+      :focus {
+        outline: 2px solid #0e73cc;
+      }
+    }
   }
 `

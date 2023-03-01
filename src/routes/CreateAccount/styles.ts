@@ -62,6 +62,22 @@ export const SectionForm = styled.section`
       :focus {
         outline: 2px solid #0e73cc;
       }
+
+      :disabled {
+        cursor: not-allowed;
+      }
     }
+  }
+`
+
+export const ErrorForm = styled.div`
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  small {
+    border-left: 2px solid #FF455C;
+    padding-left: 0.25rem;
   }
 `
