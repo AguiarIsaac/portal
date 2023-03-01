@@ -62,6 +62,10 @@ export const SectionForm = styled.section`
       :focus {
         outline: 2px solid #0e73cc;
       }
+
+      :disabled {
+        cursor: not-allowed;
+      }
     }
   }
 `

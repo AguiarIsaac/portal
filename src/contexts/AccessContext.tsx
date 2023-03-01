@@ -32,7 +32,7 @@ export function AccessContextProvider({children}: ContextProps) {
   function addToken(data: tokenProps) {
     setToken(data)
 
-    const stateJSON = JSON.stringify({token})
+    const stateJSON = JSON.stringify(token)
     localStorage.setItem('@portal: Token-0-1', stateJSON)
   }
 

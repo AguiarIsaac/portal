@@ -20,7 +20,14 @@ type loginFormData = z.infer<typeof loginFormSchema>
 
 export function Login() {
 
-  const {register, handleSubmit, reset} = useForm<loginFormData>({resolver: zodResolver(loginFormSchema)})
+  const {
+    register, 
+    handleSubmit, 
+    reset,
+    formState: {
+      errors, 
+      isSubmitting
+    }} = useForm<loginFormData>({resolver: zodResolver(loginFormSchema)})
   const context = useContext(AccessContext)
   const [emailError, setEmailError] = useState('')
 
@@ -40,6 +47,7 @@ export function Login() {
         // dando tudo certo terei um token gerado para ser salvo no contexto e no localstorage
         const token = Math.floor(Date.now() * Math.random()).toString(36)
         context.addToken({token})
+        reset()
         console.log('login realizado e token gerado!')
       }
     }
@@ -68,7 +76,7 @@ export function Login() {
 
         <Link to='recoveraccess'>Esqueceu sua senha?</Link>
 
-        <button type="submit">Entrar</button>
+        <button type="submit" disabled={isSubmitting}>Entrar</button>
         </form>
       </div>
     </SectionForm>
