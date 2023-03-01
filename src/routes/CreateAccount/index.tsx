@@ -38,9 +38,12 @@ export function CreateAccount() {
   
   const [passwordValidate, setPasswordValidade] = useState('')
   const [emailValidate, setEmailValidate] = useState('')
+
+  // estado temporário só para validar email
+  const [email, setEmail] = useState('')
   const password = watch('password')
   const confirmPassword = watch('confirmPassword')
-  const user = useContext(AccessContext)
+  const tokenContext = useContext(AccessContext)
 
   useEffect(() => {
     if(password !== confirmPassword && confirmPassword !== '') {
@@ -53,12 +56,13 @@ export function CreateAccount() {
 
   function handleNewUser(data: registerFormData) {
     // consultar se email já não foi cadastrado no banco
-    const emailDuplicate = user.user.email
+    const emailDuplicate = email
     
     if(data.email == emailDuplicate) {
       setEmailValidate('Email já cadastrado, vá para tela de login ou tente outro email')
     } else {
       setEmailValidate('')
+      tokenContext.addEmail(data.email)
     }
 
     if(data.password === data.confirmPassword) {
@@ -68,8 +72,11 @@ export function CreateAccount() {
       }
 
       // fazer chamada no banco para criptgrafar senha, salvar dados e gerar um token de acesso
-  
-      user.addNewUser(newUser) 
+
+      // dando tudo certo terei um token gerado para ser salvo no contexto e no localstorage
+
+      const token = Math.floor(Date.now() * Math.random()).toString(36)
+      tokenContext.addToken({token})
     }
   }
 
