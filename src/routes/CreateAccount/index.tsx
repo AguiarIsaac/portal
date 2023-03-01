@@ -5,6 +5,7 @@ import { z } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext, useEffect, useState } from 'react'
 import { AccessContext } from "../../contexts/AccessContext";
+import { Notification } from "../../components/Notification";
 
 // aqui o zod atua criando uma tipagem dos dados do form, criando criterios e fazendo tranformações de dados
 const registerFormSchema = z.object({
@@ -81,43 +82,48 @@ export function CreateAccount() {
   }
 
   return (
-  <SectionForm>
-    <div className="box">
-      <h2>Criar Conta</h2>
-      <p>Já possui uma conta? <Link to='/'>Entar</Link>.</p>
 
-      <form onSubmit={handleSubmit(handleNewUser)}>
-        <label>
-          Email
-          <input {...register('email')} required type="email" name="email" id="email" />
-          <ErrorForm>
-            <small>{emailValidate}</small>
-          </ErrorForm>
-        </label>
+  <>
+    <SectionForm>
+      <div className="box">
+        <h2>Criar Conta</h2>
+        <p>Já possui uma conta? <Link to='/'>Entar</Link>.</p>
 
-        <label>
-          Senha
-          <input {...register('password')} required type="password" name="password" id="password" />
-          {errors.password && (
+        <form onSubmit={handleSubmit(handleNewUser)}>
+          <label>
+            Email
+            <input {...register('email')} required type="email" name="email" id="email" />
             <ErrorForm>
-              <small>{errors.password.message}</small>
-              <small>Uma senha forte deve conter no mínimo: 8 caracteres; 1 letra maiúscula; 1 número e 1 caracter especial.</small>
+              <small>{emailValidate}</small>
             </ErrorForm>
-          )}
-        </label>
+          </label>
 
-        <label>
-          Confirme a senha
-          <input {...register('confirmPassword')} required type="password" name="confirmPassword" id="confirmPassword" />
-          {passwordValidate && (
-            <ErrorForm>
-              <small>{passwordValidate}</small>
-            </ErrorForm>
-          )}
-        </label>
-        <button type="submit" disabled={isSubmitting}>Criar</button>
-      </form>
-    </div>
-  </SectionForm>
+          <label>
+            Senha
+            <input {...register('password')} required type="password" name="password" id="password" />
+            {errors.password && (
+              <ErrorForm>
+                <small>{errors.password.message}</small>
+                <small>Uma senha forte deve conter no mínimo: 8 caracteres; 1 letra maiúscula; 1 número e 1 caracter especial.</small>
+              </ErrorForm>
+            )}
+          </label>
+
+          <label>
+            Confirme a senha
+            <input {...register('confirmPassword')} required type="password" name="confirmPassword" id="confirmPassword" />
+            {passwordValidate && (
+              <ErrorForm>
+                <small>{passwordValidate}</small>
+              </ErrorForm>
+            )}
+          </label>
+          <button type="submit" disabled={isSubmitting}>Criar</button>
+        </form>
+      </div>
+    </SectionForm>
+
+    <Notification message="usuário criado com sucesso!"/>
+  </>
   )
 }
