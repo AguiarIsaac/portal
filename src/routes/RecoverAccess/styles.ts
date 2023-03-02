@@ -21,7 +21,7 @@ export const SectionForm = styled.section`
   }
 
   form {
-    margin-top: 4rem;
+    margin-top: 1rem;
     display: flex;
     flex-direction: column;
     gap: 2rem;

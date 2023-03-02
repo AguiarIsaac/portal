@@ -38,7 +38,7 @@ export function CreateAccount() {
     watch,
     reset,
     setFocus,
-    formState: {errors, isSubmitting,
+    formState: {errors
   }} = useForm<registerFormData>({resolver: zodResolver(registerFormSchema)})
   
   const [passwordValidate, setPasswordValidade] = useState('')

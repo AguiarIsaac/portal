@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext, useState } from 'react'
 import { AccessContext } from "../../contexts/AccessContext";
+import { Loanding } from "../../components/Loading";
 
 const loginFormSchema = z.object({
   email: z
@@ -19,36 +20,50 @@ const loginFormSchema = z.object({
 type loginFormData = z.infer<typeof loginFormSchema>
 
 export function Login() {
+  const context = useContext(AccessContext)
 
   const {
     register, 
     handleSubmit, 
     reset,
-    formState: {
-      errors, 
-      isSubmitting
-    }} = useForm<loginFormData>({resolver: zodResolver(loginFormSchema)})
-  const context = useContext(AccessContext)
+    setFocus,
+    formState: { 
+      errors
+  }} = useForm<loginFormData>({resolver: zodResolver(loginFormSchema)})
+  
   const [emailError, setEmailError] = useState('')
+  const [blockButton, setBlockButton] = useState(false)
 
   function handleLogin(data: loginFormData) {
+
+    setBlockButton(true)
+
     const emailValidate = context.user.email
+    
     // NAS FUTURAS REFATORAÇÕES, TROCAR ESSAS CONDICIONAIS POR OPERAÇÕES TERNÁRIAS
     if(data.email !== emailValidate) {
       setEmailError('usuário ou senha inválidos! tente novamente')
-      reset()
+      setFocus('email')
+      setBlockButton(false)
+
     } else {
       const passwordValidate = context.user.password
+      
       if(data.password !== passwordValidate) {
         setEmailError('usuário ou senha inválidos! tente novamente')
-        reset()
+        setFocus('password')
+        setBlockButton(false)
+
       } else {
-        
         // dando tudo certo terei um token gerado para ser salvo no contexto e no localstorage
         const token = Math.floor(Date.now() * Math.random()).toString(36)
         context.addToken({token})
         reset()
         console.log('login realizado e token gerado!')
+
+        setTimeout(() => {
+          setBlockButton(false)
+        }, 500)
       }
     }
   }
@@ -76,7 +91,17 @@ export function Login() {
 
         <Link to='recoveraccess'>Esqueceu sua senha?</Link>
 
-        <button type="submit" disabled={isSubmitting}>Entrar</button>
+        <button type="submit" disabled={blockButton}>
+          {blockButton && (
+              <Loanding />  
+            )
+          }
+
+          {!blockButton && (
+              'Entrar'
+            )
+          }
+        </button>
         </form>
       </div>
     </SectionForm>
