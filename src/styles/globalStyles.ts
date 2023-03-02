@@ -11,6 +11,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Roboto', sans-serif;
     background: #111111;
     color: #e1e1e1;
+    overflow: hidden;
 
     a {
       :focus {

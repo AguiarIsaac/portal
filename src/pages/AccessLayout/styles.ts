@@ -25,7 +25,7 @@ export const SectionLogo = styled.section`
   justify-content: center;
 
   img {
-    margin: 2rem 0 4rem 0;
+    margin: 2rem 0;
     width: 18rem;
     height: auto;
 

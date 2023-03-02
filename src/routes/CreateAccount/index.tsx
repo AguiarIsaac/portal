@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext, useEffect, useState } from 'react'
 import { AccessContext } from "../../contexts/AccessContext";
 import { Notification } from "../../components/Notification";
+import { Loanding } from "../../components/Loading";
 
 // aqui o zod atua criando uma tipagem dos dados do form, criando criterios e fazendo tranformações de dados
 const registerFormSchema = z.object({
@@ -29,22 +30,57 @@ const registerFormSchema = z.object({
 type registerFormData = z.infer<typeof registerFormSchema>
 
 export function CreateAccount() {
+  const context = useContext(AccessContext)
 
   const {
     register, 
     handleSubmit,
     watch,
-    formState: {errors, isSubmitting
-    }} = useForm<registerFormData>({resolver: zodResolver(registerFormSchema)})
+    reset,
+    setFocus,
+    formState: {errors, isSubmitting,
+  }} = useForm<registerFormData>({resolver: zodResolver(registerFormSchema)})
   
   const [passwordValidate, setPasswordValidade] = useState('')
   const [emailValidate, setEmailValidate] = useState('')
+  const [notification, setNotification] = useState(false)
+  const [blockButton, setBlockButton] = useState(false)
 
-  // estado temporário só para validar email
-  const [email, setEmail] = useState('')
   const password = watch('password')
   const confirmPassword = watch('confirmPassword')
-  const tokenContext = useContext(AccessContext)
+  
+  function handleNewUser(data: registerFormData) {
+    setBlockButton(true)
+    // em produção será feita atraves de chamada no banco
+    const emailDuplicate = context.user.email
+    
+    if(data.email == emailDuplicate) {
+      setEmailValidate('Email já cadastrado, vá para tela de login ou tente outro email')
+      setBlockButton(false)
+      setFocus('email')
+    } else {
+      setEmailValidate('') 
+      
+      if(data.password === data.confirmPassword) {
+        const newUser = {
+          email: data.email,
+          password: data.password
+        }
+
+        context.addUser(newUser)
+
+        // delay para simular
+        setTimeout(() => {
+          setBlockButton(false)
+          setNotification(true)
+          reset()
+        }, 500)
+      } else {
+        setFocus('confirmPassword')
+        setBlockButton(false)
+      } 
+    }
+  }
 
   useEffect(() => {
     if(password !== confirmPassword && confirmPassword !== '') {
@@ -55,30 +91,7 @@ export function CreateAccount() {
 
   }, [password, confirmPassword])
 
-  function handleNewUser(data: registerFormData) {
-    // consultar se email já não foi cadastrado no banco
-    const emailDuplicate = email
-    
-    if(data.email == emailDuplicate) {
-      setEmailValidate('Email já cadastrado, vá para tela de login ou tente outro email')
-    } else {
-      setEmailValidate('')
-    }
-
-    if(data.password === data.confirmPassword) {
-      const newUser = {
-        email: data.email,
-        password: data.password
-      }
-
-      tokenContext.addUser(newUser)
-
-      // fazer chamada no banco para criptgrafar senha, salvar dados e gerar um token de acesso
-    }
-  }
-
   return (
-
   <>
     <SectionForm>
       <div className="box">
@@ -100,9 +113,10 @@ export function CreateAccount() {
             {errors.password && (
               <ErrorForm>
                 <small>{errors.password.message}</small>
-                <small>Uma senha forte deve conter no mínimo: 8 caracteres; 1 letra maiúscula; 1 número e 1 caracter especial.</small>
               </ErrorForm>
             )}
+
+            <small>Uma senha forte deve conter no mínimo: 8 caracteres; 1 letra maiúscula; 1 número e 1 caracter especial.</small>
           </label>
 
           <label>
@@ -114,12 +128,23 @@ export function CreateAccount() {
               </ErrorForm>
             )}
           </label>
-          <button type="submit" disabled={isSubmitting}>Criar</button>
+          <button type="submit" disabled={blockButton}>
+            {blockButton && (
+              <Loanding />  
+            )}
+
+            {!blockButton && (
+              'Criar'
+            )}
+
+          </button>
         </form>
       </div>
     </SectionForm>
 
-    <Notification message="usuário criado com sucesso!"/>
+    {notification && (
+      <Notification message="usuário criado com sucesso!"/>      
+    )}
   </>
   )
 }
