@@ -70,7 +70,6 @@ export const FormError = styled.span`
 
   display: block;
   margin-top:2rem;
-  margin-bottom: -3rem;
   border-left: 2px solid #FF455C;
   padding-left: 0.25rem;
 `

@@ -26,10 +26,8 @@ export function Login() {
     register, 
     handleSubmit, 
     reset,
-    setFocus,
-    formState: { 
-      errors
-  }} = useForm<loginFormData>({resolver: zodResolver(loginFormSchema)})
+    setFocus 
+  } = useForm<loginFormData>({resolver: zodResolver(loginFormSchema)})
   
   const [emailError, setEmailError] = useState('')
   const [blockButton, setBlockButton] = useState(false)

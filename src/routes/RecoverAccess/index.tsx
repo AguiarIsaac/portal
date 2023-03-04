@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext, useState } from "react";
 import { AccessContext } from "../../contexts/AccessContext";
+import { Notification } from "../../components/Notification";
+import { Loanding } from "../../components/Loading";
 
 const recoverFormSchema = z.object({
   email: z
@@ -21,43 +23,67 @@ export function RecoverAccess() {
     register, 
     handleSubmit, 
     reset,
-    formState: {isSubmitting}
+    setFocus
   } = useForm<recoverFormData>({resolver: zodResolver(recoverFormSchema)})
 
   const context = useContext(AccessContext)
   const [emailError, setEmailError] = useState('')
-  const [success, setSuccess] = useState('')
+  const [notification, setNotification] = useState(false)
+  const [blockButton, setBlockButton] = useState(false)
 
   function handleRecover(data: recoverFormData) {
+
+    setBlockButton(true)
     const emailValidate = context.user.email
+    
     if(data.email !== emailValidate) {
       setEmailError('Email não cadastrado ou inválido, tente novamente ou vá para tela de cadastro.')
-      reset()
+      setFocus('email')
+      setBlockButton(false)
+
     } else {
-      setSuccess('email enviado! verifique sua caixa de email e siga as instruções')
-      setEmailError('')
-      reset()
+      
+      
+      setTimeout(() => {
+        setNotification(true)
+        setBlockButton(false)
+        setEmailError('')
+        reset()
+      }, 500)
     }
   }
 
 
   return (
-    <SectionForm>
-      <div className="box">
-        <h2>Resetar Sua senha</h2>
-        <p><Link to='/'>Voltar para tela de login.</Link></p>
+    <>
+      <SectionForm>
+        <div className="box">
+          <h2>Resetar Sua senha</h2>
+          <p><Link to='/'>Voltar para tela de login.</Link></p>
 
-        {emailError && (
-          <FormError>{emailError}</FormError>
-        )} 
-        <form onSubmit={handleSubmit(handleRecover)}>
-          <label>
-            Email
-            <input {...register('email')} type="email" name="email" id="email" />
-          </label>
-          <button type="submit" disabled={isSubmitting}>Resetar Senha</button>
-        </form>
-      </div>
-    </SectionForm>
+          {emailError && (
+            <FormError>{emailError}</FormError>
+          )} 
+          <form onSubmit={handleSubmit(handleRecover)}>
+            <label>
+              Email
+              <input {...register('email')} type="email" name="email" id="email" required/>
+            </label>
+            <button type="submit" disabled={blockButton}>
+              {blockButton && (
+                <Loanding />  
+              )}
+
+              {!blockButton && (
+                'Resetar Senha'
+              )}  
+            </button>
+          </form>
+        </div>
+      </SectionForm>
+      {notification && (
+      <Notification message="Email Enviado! verifique sua caixa de email e siga as instrucções."/>      
+    )}
+    </>
   )
 }
