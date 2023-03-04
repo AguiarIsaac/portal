@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { AccessLayout } from "./pages/AccessLayout";
+import { DashboardLayout } from "./pages/DashboardLayout";
 import { CreateAccount } from "./routes/CreateAccount";
 import { ErrorPage } from "./routes/ErrorPage";
 import { Login } from "./routes/Login";
@@ -25,5 +26,10 @@ export const routerConfigs = createBrowserRouter([
         element: <RecoverAccess />
       }
     ]
+  },
+  {
+    path:'/dashboard',
+    element: <DashboardLayout />,
+    errorElement: <ErrorPage />,
   }
 ])

@@ -53,6 +53,7 @@ export const NotificationContainer = styled.div`
     top: 2rem;
     bottom: unset;
     right: unset;
+    width: 90%;
 
     @keyframes open {
     from {
