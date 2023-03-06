@@ -4,6 +4,7 @@ import { DashboardLayout } from "./pages/DashboardLayout";
 import { CreateAccount } from "./routes/CreateAccount";
 import { ErrorPage } from "./routes/ErrorPage";
 import { Login } from "./routes/Login";
+import { RequireAuth } from "./routes/RequireAuth";
 import { RecoverAccess } from "./routes/RecoverAccess";
 
 
@@ -29,7 +30,10 @@ export const routerConfigs = createBrowserRouter([
   },
   {
     path:'/dashboard',
-    element: <DashboardLayout />,
-    errorElement: <ErrorPage />,
+    element: 
+    <RequireAuth>
+      <DashboardLayout />
+    </RequireAuth>,
+    errorElement: <ErrorPage />
   }
 ])
