@@ -15,7 +15,7 @@ interface tokenProps {
 }
 
 interface AccessProps {
-  token: tokenProps,
+  AccessToken: tokenProps,
   // vou precisar deixar email e senha salvos só pra testar as outras telas
   user: userProps,
   addUser: (newSrate: userProps) => void,
@@ -25,14 +25,14 @@ interface AccessProps {
 export const AccessContext = createContext({} as AccessProps)
 
 export function AccessContextProvider({children}: ContextProps) {
-  const [token, setToken] = useState({} as tokenProps)
+  const [AccessToken, setAccessToken] = useState({} as tokenProps)
   const [user, setUser] = useState({} as userProps)
 
 
   function addToken(data: tokenProps) {
-    setToken(data)
+    setAccessToken(data)
 
-    const stateJSON = JSON.stringify(token)
+    const stateJSON = JSON.stringify(AccessToken.token)
     localStorage.setItem('@portal: Token-0-1', stateJSON)
   }
 
@@ -41,7 +41,7 @@ export function AccessContextProvider({children}: ContextProps) {
   }
 
   return (
-    <AccessContext.Provider value={{token, addToken, user, addUser}}>
+    <AccessContext.Provider value={{AccessToken, addToken, user, addUser}}>
       {children}
     </AccessContext.Provider>
   )
