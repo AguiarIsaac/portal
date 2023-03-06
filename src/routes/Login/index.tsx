@@ -1,5 +1,5 @@
 import { FormError, SectionForm } from "./styles";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -21,6 +21,7 @@ type loginFormData = z.infer<typeof loginFormSchema>
 
 export function Login() {
   const context = useContext(AccessContext)
+  const navigate = useNavigate()
 
   const {
     register, 
@@ -55,12 +56,17 @@ export function Login() {
       } else {
         // dando tudo certo terei um token gerado para ser salvo no contexto e no localstorage
         const token = Math.floor(Date.now() * Math.random()).toString(36)
-        context.addToken({token})
+
+        const tokenFormated = {
+          token: token
+        }
+
+        context.addToken(tokenFormated)
         reset()
-        console.log('login realizado e token gerado!')
 
         setTimeout(() => {
           setBlockButton(false)
+          navigate('/dashboard')
         }, 500)
       }
     }
