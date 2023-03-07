@@ -51,6 +51,19 @@ export const NavSide = styled.div`
   footer {
     position: fixed;
     bottom: 2rem;
+
+    button {
+      all: unset;
+      cursor: pointer;
+
+      :focus {
+        outline: 2px solid #0e73cc;
+      }
+
+      svg {
+        color: #FF455C;
+      }
+    }
   }
 `
 

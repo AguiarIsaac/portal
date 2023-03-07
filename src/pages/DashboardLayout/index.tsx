@@ -1,3 +1,4 @@
+import { SignOut } from 'phosphor-react'
 import { useContext } from 'react'
 import logo from '../../assets/miranda-white.png'
 import { AccessContext } from '../../contexts/AccessContext'
@@ -28,8 +29,8 @@ export function DashboardLayout() {
         </nav>
 
         <footer>
-          <button type='button' onClick={handleLogout}>
-            Sair
+          <button type='button' onClick={handleLogout} title='Sair'>
+            <SignOut size={28} />
           </button>
         </footer>
       </NavSide>
