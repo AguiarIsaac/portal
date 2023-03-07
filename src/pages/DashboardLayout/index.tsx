@@ -1,7 +1,14 @@
+import { useContext } from 'react'
 import logo from '../../assets/miranda-white.png'
+import { AccessContext } from '../../contexts/AccessContext'
 import { Container, Content, NavSide } from './styles'
 
 export function DashboardLayout() {
+  const context = useContext(AccessContext)
+
+  function handleLogout() {
+    context.addToken({token: ''})
+  }
   
   return (
     <Container>
@@ -9,19 +16,19 @@ export function DashboardLayout() {
         <img src={logo} alt="Miranda Coomputação" />
         
         <div className="profile">
-          <img src="" alt="foto de perfil" />
+          <img src="https://avatars.githubusercontent.com/u/37755163?v=4" alt="foto de perfil" />
           <p>Bem vindo!</p>
           <h5>Nome do usuário</h5>
         </div>
 
         <nav>
-          <span> <a href="#">Dashboard</a> </span>
-          <span> <a href="#">Curriculo</a> </span>
-          <span> <a href="#">Oportunidades</a> </span>
+          <span> <a href="#">Dashboard</a></span>
+          <span> <a href="#">Curriculo</a></span>
+          <span> <a href="#">Oportunidades</a></span>
         </nav>
 
         <footer>
-          <button type='button'>
+          <button type='button' onClick={handleLogout}>
             Sair
           </button>
         </footer>

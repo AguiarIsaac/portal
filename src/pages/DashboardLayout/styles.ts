@@ -13,9 +13,10 @@ export const Container = styled.main`
 `
 
 export const NavSide = styled.div`
-  box-shadow: 0px 0px 3px 1px #00000088;
+  box-shadow: 0px 0px 3px 1px #00000052;
   border-radius: 8px;
   padding: 0.5rem;
+  max-width: 16rem;
 
   display: flex;
   flex-direction: column;
@@ -25,10 +26,36 @@ export const NavSide = styled.div`
   img {
     width: 10rem;
   }
+
+  .profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    p {
+      margin-top: 0.5rem;
+    }
+
+    img {
+      border-radius: 50%
+    }
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  footer {
+    position: fixed;
+    bottom: 2rem;
+  }
 `
 
 export const Content = styled.section`
-  box-shadow: 0px 0px 3px 1px #00000088;
+  box-shadow: 0px 0px 3px 1px #00000052;
   border-radius: 8px;
   padding: 0.5rem;
 `
