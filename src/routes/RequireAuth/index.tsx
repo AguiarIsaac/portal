@@ -4,7 +4,7 @@ import { AccessContext } from "../../contexts/AccessContext";
 
 export function RequireAuth({children}: {children: JSX.Element}) {
   const context = useContext(AccessContext)
-  const token = context.AccessToken.token
+  const token = context.AccessToken?.token
 
   if(!token) {
     return <Navigate to='/' />

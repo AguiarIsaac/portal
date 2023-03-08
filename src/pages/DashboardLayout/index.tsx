@@ -9,7 +9,7 @@ export function DashboardLayout() {
   const context = useContext(AccessContext)
 
   function handleLogout() {
-    context.addToken({token: ''})
+    context.removeToken()
   }
   
   return (

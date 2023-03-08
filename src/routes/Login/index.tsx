@@ -37,7 +37,7 @@ export function Login() {
 
     setBlockButton(true)
 
-    const emailValidate = context.user.email
+    const emailValidate = context.user?.email
     
     // NAS FUTURAS REFATORAÇÕES, TROCAR ESSAS CONDICIONAIS POR OPERAÇÕES TERNÁRIAS
     if(data.email !== emailValidate) {
@@ -46,7 +46,7 @@ export function Login() {
       setBlockButton(false)
 
     } else {
-      const passwordValidate = context.user.password
+      const passwordValidate = context.user?.password
       
       if(data.password !== passwordValidate) {
         setEmailError('usuário ou senha inválidos! tente novamente')
@@ -55,7 +55,8 @@ export function Login() {
 
       } else {
         // dando tudo certo terei um token gerado para ser salvo no contexto e no localstorage
-        const token = Math.floor(Date.now() * Math.random()).toString(36)
+        // const token = Math.floor(Date.now() * Math.random()).toString(36)
+        const token = 'token'
 
         const tokenFormated = {
           token: token

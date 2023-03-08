@@ -34,7 +34,7 @@ export function RecoverAccess() {
   function handleRecover(data: recoverFormData) {
 
     setBlockButton(true)
-    const emailValidate = context.user.email
+    const emailValidate = context.user?.email
     
     if(data.email !== emailValidate) {
       setEmailError('Email não cadastrado ou inválido, tente novamente ou vá para tela de cadastro.')
