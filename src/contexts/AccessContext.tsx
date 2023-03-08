@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 
 interface ContextProps {
   children: ReactNode
@@ -39,7 +39,7 @@ export function AccessContextProvider({children}: ContextProps) {
   function addUser(data: userProps) {
     setUser(data)
   }
-
+  
   return (
     <AccessContext.Provider value={{AccessToken, addToken, user, addUser}}>
       {children}

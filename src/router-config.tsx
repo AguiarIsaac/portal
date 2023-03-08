@@ -6,6 +6,9 @@ import { ErrorPage } from "./routes/ErrorPage";
 import { Login } from "./routes/Login";
 import { RequireAuth } from "./routes/RequireAuth";
 import { RecoverAccess } from "./routes/RecoverAccess";
+import { Dashboard } from "./routes/Dashboard";
+import { Curriculum } from "./routes/Curriculum";
+import { Opportunities } from "./routes/Opportunities";
 
 
 export const routerConfigs = createBrowserRouter([
@@ -34,6 +37,20 @@ export const routerConfigs = createBrowserRouter([
     <RequireAuth>
       <DashboardLayout />
     </RequireAuth>,
-    errorElement: <ErrorPage />
+    errorElement: <ErrorPage />,
+    children:[
+      {
+        path:'/dashboard',
+        element:<Dashboard />
+      },
+      {
+        path:'/dashboard/curriculum',
+        element: <Curriculum />
+      },
+      {
+        path:'/dashboard/opportunities',
+        element: <Opportunities />
+      }
+    ]
   }
 ])

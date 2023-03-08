@@ -1,5 +1,6 @@
 import { SignOut } from 'phosphor-react'
 import { useContext } from 'react'
+import { Link, Outlet } from 'react-router-dom'
 import logo from '../../assets/miranda-white.png'
 import { AccessContext } from '../../contexts/AccessContext'
 import { Container, Content, NavSide } from './styles'
@@ -23,9 +24,9 @@ export function DashboardLayout() {
         </div>
 
         <nav>
-          <span> <a href="#">Dashboard</a></span>
-          <span> <a href="#">Curriculo</a></span>
-          <span> <a href="#">Oportunidades</a></span>
+          <span> <Link to='/dashboard'>Dashboard</Link> </span>
+          <span> <Link to='/dashboard/curriculum'>Curriculo</Link></span>
+          <span> <Link to='/dashboard/opportunities'>Oportunidades</Link></span>
         </nav>
 
         <footer>
@@ -34,7 +35,9 @@ export function DashboardLayout() {
           </button>
         </footer>
       </NavSide>
-      <Content></Content>
+      <Content>
+        <Outlet />
+      </Content>
     </Container>
   )
 }
